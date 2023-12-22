@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import font as tkFont
+from tkinter import *
+import tkinter.ttk as ttk
+from tkinter import *
 from tkcalendar import DateEntry #pip install tkcalendar
 
 class ViewQuanLyNhanVien(tk.Tk):
@@ -20,6 +23,7 @@ class ViewQuanLyNhanVien(tk.Tk):
         self.maNV = tk.Entry(self)
         self.maNV.place(x=1050, y=100)
 
+
         # Tạo Label và Entry Họ Tên
         tk.Label(self, text="Họ Tên:").place(x=900, y=130)
         self.hoTen = tk.Entry(self)
@@ -32,19 +36,36 @@ class ViewQuanLyNhanVien(tk.Tk):
 
         # Tạo Label và Checkbtn Loại Nhân Viên
         tk.Label(self, text="Loại nhân viên:").place(x=900, y=190)
-        self.nvVP = tk.BooleanVar()
-        tk.Checkbutton(self, text="Nhân viên văn phòng", variable=self.nvVP).place(x=1050, y=190)
+        self.nvVP = tk.StringVar()
+        tk.Checkbutton(self, text="Nhân viên văn phòng", variable=self.nvVP, onvalue="Văn Phòng", offvalue="").place(x=1050, y=190)
 
-        self.nvBH = tk.BooleanVar()
-        tk.Checkbutton(self, text="Nhân viên bán hàng", variable=self.nvBH).place(x=1050, y=220)
+        self.nvBH = tk.StringVar()
+        tk.Checkbutton(self, text="Nhân viên bán hàng", variable=self.nvBH, onvalue="Bán Hàng", offvalue="").place(x=1050, y=220)
 
-        self.nvKL = tk.BooleanVar()
-        tk.Checkbutton(self, text="Không loại", variable=self.nvKL).place(x=1050, y=250)
+        self.nvKL = tk.StringVar()
+        tk.Checkbutton(self, text="Không loại", variable=self.nvKL, onvalue="Không Loại", offvalue="").place(x=1050, y=250)
+
+        # Tạo Label và Combobox Loại Nhân Viên
+        # tk.Label(self, text="Loại nhân viên:").place(x=900, y=190)
+        # self.loaiNV = tk.StringVar
+        #
+        # ttk.Combobox(self, textvariable=self.loaiNV, values=('Văn Phòng', 'Bán Hàng', 'Không Loại'), state='readonly').place(x=1050, y=190)
+
 
         # Tạo Label và Entry Lương Hàng Tháng
         tk.Label(self, text="Lương Hằng Tháng:").place(x=900, y=280)
         self.luongHT = tk.Entry(self, state='readonly')
         self.luongHT.place(x=1050, y=280)
+
+        # Tạo Label và Entry Số Ngày Làm
+        tk.Label(self, text="Số Ngày Làm:").place(x=900, y=310)
+        self.soNgayLam = tk.Entry(self)
+        self.soNgayLam.place(x=1050, y=310)
+
+        # Tạo Label và Entry Số Sản Phẩm
+        tk.Label(self, text="Số Sản Phẩm:").place(x=900, y=340)
+        self.soSanPham = tk.Entry(self)
+        self.soSanPham.place(x=1050, y=340)
 
         # Tạo TreeView
         self.tvNV = ttk.Treeview(self, height=20, padding="10px")
