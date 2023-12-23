@@ -11,7 +11,7 @@ class ControllerNhanVien:
         self.view.btnTimKiem.config(command=self.timNV)
         self.view.btnThemNV.config(command=self.themNV)
         self.view.btnXoaNV.config(command=self.xoaNV)
-
+        self.view.btnCapnhatNV.config(command=self.capnhatNV)
     def loadNV(self):
         self.model.setdsNVnull()
         self.view.clearTreeview()
@@ -59,3 +59,13 @@ class ControllerNhanVien:
         self.view.showNV(self.model.dsNV)
         print("Xoa thanh cong nhan vien")
 
+    def capnhatNV(self):
+        self.model.setdsNVnull()
+        dataNV = [self.view.maNV.get(), self.view.hoTen.get(), self.view.luongCB.get(), self.view.loaiNV.get(),
+                  self.view.soNgayLam.get(), self.view.soSanPham.get()]
+        print("data", dataNV)
+        self.model.capnhatNV(dataNV)
+        self.view.clearTreeview()
+        self.model.loadNV()
+        self.view.showNV(self.model.dsNV)
+        print("Cap nhat thanh cong nhan vien")

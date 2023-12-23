@@ -44,5 +44,17 @@ class ModuleNhanVien:
         sql_query = sql_query1 + sql_query2
         self.conn.excute(sql_query)
         self.conn.close()
+
+    def capnhatNV(self, dataNV):
+        self.conn.connect()
+        print(dataNV)
+        sql_query1 = """UPDATE ChamCongTongHop SET LoaiNhanVien = N'""" + dataNV[3] + """', SoNgayLam = """ + str(dataNV[4]) + """, SoSanPham = """ + str(dataNV[5]) + """ WHERE MaNhanVien = '""" + dataNV[0] +"""' """
+        sql_query2 = """UPDATE NhanVien SET HoTen = N'""" + dataNV[1] + """', LuongCoBan = """ + dataNV[2] + """ WHERE MaNhanVien = '""" + dataNV[0] + """'"""
+        sql_query = sql_query1 + sql_query2
+
+        print(sql_query)
+        self.conn.excute(sql_query)
+        self.conn.close()
+
     def close(self):
         self.conn.close()
