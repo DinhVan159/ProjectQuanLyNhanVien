@@ -30,6 +30,11 @@ class MSSQLConnect:
         cursor.execute(sql)
         return cursor.fetchall()
 
+    def excute(self, sql):
+        cursor = self.connection.cursor()
+        cursor.execute(sql)
+        cursor.commit()
+
     def close(self):
         if self.connection:
             self.connection.close()
