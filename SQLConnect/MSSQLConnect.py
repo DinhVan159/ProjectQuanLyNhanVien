@@ -12,7 +12,7 @@ class MSSQLConnect:
         self.username = username
         self.password = password
         self.connection = None
-
+        self.error = 0
     def connect(self):
         try:
             str_sql = 'DRIVER={0};SERVER={1};DATABASE={2};UID={3};PWD={4}'.format(self.driver,
@@ -31,10 +31,9 @@ class MSSQLConnect:
         return cursor.fetchall()
 
     def excute(self, sql):
-        cursor = self.connection.cursor()
-        cursor.execute(sql)
-        cursor.commit()
-
+            cursor = self.connection.cursor()
+            cursor.execute(sql)
+            cursor.commit()
     def close(self):
         if self.connection:
             self.connection.close()

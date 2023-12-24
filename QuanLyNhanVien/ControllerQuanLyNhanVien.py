@@ -25,6 +25,7 @@ class ControllerNhanVien:
         self.model.timNV(self.view.maNV.get())
         self.view.clearTreeview()
         self.view.showNV(self.model.dsNV)
+        if self.model.dsNV == []: self.view.messageWR("Tìm không có sinh viên")
 
     def themNV(self):
         self.model.setdsNVnull()
@@ -50,7 +51,7 @@ class ControllerNhanVien:
             print("Them thanh cong nhan vien")
         else:
             print("Them khong thanh cong nhan vien")
-
+            self.view.messageWR("Thêm không thành công nhân viên")
     def xoaNV(self):
         self.model.setdsNVnull()
         self.model.xoaNV(self.view.ojSelected)
@@ -68,4 +69,6 @@ class ControllerNhanVien:
         self.view.clearTreeview()
         self.model.loadNV()
         self.view.showNV(self.model.dsNV)
-        print("Cap nhat thanh cong nhan vien")
+
+        if self.view.maNV.get() != self.view.ojSelected[0]:
+            self.view.messageWR("Cập nhật không thành công nhân viên")

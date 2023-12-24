@@ -1,16 +1,16 @@
 import tkinter as tk
-from tkinter import ttk
 from tkinter import font as tkFont
-from tkinter import *
 import tkinter.ttk as ttk
 from tkinter import *
-from tkinter.ttk import Combobox
+from ttkthemes import ThemedTk #pip install ttkthemes
 from tkcalendar import DateEntry #pip install tkcalendar
+from  tkinter import messagebox
 
 class ViewQuanLyNhanVien(tk.Tk):
     def __init__(self):
         super().__init__()
-        # self.ojSelected = ['', '', '', '']
+        self.style = ttk.Style(self)
+        self.style.theme_use("clam")
         #Tạo Title
         self.title("QUẢN LÝ THÔNG TIN NHÂN VIÊN")
         self.geometry("1200x600")
@@ -155,3 +155,6 @@ class ViewQuanLyNhanVien(tk.Tk):
     def clearTreeview(self):
         for item in self.tvNV.get_children():
             self.tvNV.delete(item)
+
+    def messageWR(self, ms):
+        messagebox.showwarning("Thông báo", ms)
