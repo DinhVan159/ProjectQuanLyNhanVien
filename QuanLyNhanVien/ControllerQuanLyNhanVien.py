@@ -5,7 +5,7 @@ class ControllerNhanVien:
     def __init__(self, model: ModuleNhanVien, view: ViewQuanLyNhanVien):
         self.model = model
         self.view = view
-        self.loaiNV = 'Văn phòng'
+        self.loaiNV = ''
 
         self.view.btnLoadNV.config(command=self.loadNV)
         self.view.btnTimKiem.config(command=self.timNV)
@@ -31,7 +31,6 @@ class ControllerNhanVien:
     def themNV(self):
         self.model.setdsNVnull()
         thucThi = 0
-
         if self.view.loaiNV.get() != 'Chọn nhân viên':
             self.loaiNV = self.view.loaiNV.get()
 
@@ -63,15 +62,25 @@ class ControllerNhanVien:
 
     def capnhatNV(self):
         self.model.setdsNVnull()
-        dataNV = [self.view.maNV.get(), self.view.hoTen.get(), self.view.luongCB.get(), self.view.loaiNV.get(),
-                  self.view.soNgayLam.get(), self.view.soSanPham.get()]
-        print("data", dataNV)
-        self.model.capnhatNV(dataNV)
-        self.view.clearTreeview()
-        self.model.loadNV()
-        self.view.showNV(self.model.dsNV)
+        thucThi = 0
 
-        if self.view.maNV.get() != self.view.ojSelected[0]:
+        if self.view.loaiNV.get() != 'Chọn nhân viên':
+            self.loaiNV = self.view.loaiNV.get()
+
+        dataNV = [self.view.maNV.get(), self.view.hoTen.get(), self.view.luongCB.get(), self.loaiNV,
+                  self.view.soNgayLam.get(), self.view.soSanPham.get()]
+
+        for i in dataNV:
+            if i == '':
+                thucThi = 1
+
+        if thucThi == 0:
+            self.model.capnhatNV(dataNV)
+            self.view.clearTreeview()
+            self.model.loadNV()
+            self.view.showNV(self.model.dsNV)
+
+        if (self.view.maNV.get() != self.view.ojSelected[0]) | (thucThi == 1):
             self.view.messageWR("Cập nhật không thành công nhân viên")
 
     def tinhluongNV(self):
