@@ -5,6 +5,8 @@ from tkinter import *
 from ttkthemes import ThemedTk #pip install ttkthemes
 from tkcalendar import DateEntry #pip install tkcalendar
 from  tkinter import messagebox
+import tkinter as tk
+from tkinter import ttk
 
 class ViewQuanLyNhanVien(tk.Tk):
     def __init__(self):
@@ -19,6 +21,7 @@ class ViewQuanLyNhanVien(tk.Tk):
         tk.Label(self, text="QUẢN LÝ THÔNG TIN NHÂN VIÊN", fg='BLUE',
                  font=tkFont.Font(family="Helvetica", size=20, weight="bold")
                 ).place(x=380, y=30)
+
 
         # Tạo Label và Entry Mã Nhân Viên
         tk.Label(self, text="Mã Nhân Viên:").place(x=900, y=100)
@@ -59,24 +62,36 @@ class ViewQuanLyNhanVien(tk.Tk):
         self.cbx = ttk.Combobox(self,textvariable=self.loaiNV, values=self.options, state='readonly', width=17).place(x=1050, y=190)
 
         # Tạo Label và Entry Lương Hàng Tháng
-        tk.Label(self, text="Lương Hằng Tháng:").place(x=900, y=220)
-        self.luongHT = tk.Entry(self, state='readonly')
-        self.luongHT.place(x=1050, y=220)
+        tk.Label(self, text="Lương Hằng Tháng:").place(x=900, y=280)
+        self.htluongHT = tk.StringVar()
+        self.luongHT = tk.Entry(self, state='readonly', textvariable=self.htluongHT)
+        self.luongHT.place(x=1050, y=280)
 
         # Tạo Label và Entry Số Ngày Làm
-        tk.Label(self, text="Số Ngày Làm:").place(x=900, y=250)
+        tk.Label(self, text="Số Ngày Làm:").place(x=900, y=220)
         self.htsoNgayLam = tk.StringVar()
         self.soNgayLam = tk.Entry(self, textvariable=self.htsoNgayLam)
-        self.soNgayLam.place(x=1050, y=250)
+        self.soNgayLam.place(x=1050, y=220)
 
         # Tạo Label và Entry Số Sản Phẩm
-        tk.Label(self, text="Số Sản Phẩm:").place(x=900, y=280)
+        tk.Label(self, text="Số Sản Phẩm:").place(x=900, y=250)
         self.htsoSanPham = tk.StringVar()
         self.soSanPham = tk.Entry(self, textvariable=self.htsoSanPham)
-        self.soSanPham.place(x=1050, y=280)
+        self.soSanPham.place(x=1050, y=250)
+
+        # Tạo Label và Entry Tìm NV
+        tk.Label(self, text="Nhập Mã NV Cần Tìm:").place(x=900, y=310)
+        self.maNVCanTim = tk.Entry(self, width=30)
+        self.maNVCanTim.place(x=900, y=340)
 
         # Tạo TreeView
         self.tvNV = ttk.Treeview(self, height=20, padding="10px")
+        # Đặt vị trí TreeView
+        self.tvNV.place(x=20, y=100)
+
+        self.vsb = ttk.Scrollbar(self, orient="vertical", command=self.tvNV.yview)
+        self.vsb.place(x=870, y=100, height=455)
+        self.tvNV.configure(yscrollcommand=self.vsb.set)
 
         # Tạo các cột trong TreeView
         self.tvNV['columns'] = ('MaNV', 'HoTen', 'LoaiNV', 'LuongCB', 'soNgayLam', 'soSanPham', 'LuongThang')
@@ -101,17 +116,14 @@ class ViewQuanLyNhanVien(tk.Tk):
         self.tvNV.heading("soSanPham", text="Số Sản Phẩm")
         self.tvNV.heading("LuongThang", text="Lương Hàng Tháng")
 
-        # Đặt vị trí
-        self.tvNV.place(x=20, y=100)
-
         self.tvNV.bind("<<TreeviewSelect>>", self.selectionNV)
         # Buttons
         self.btnTimKiem = tk.Button(self, text="Tìm kiếm",
                                   width=8,
                                   background='#CCFFFF')
-        self.btnTimKiem.place(x=1060, y=400)
+        self.btnTimKiem.place(x=1110, y=335)
 
-        self.btnLoadNV = tk.Button(self, text="Load NV",
+        self.btnLoadNV = tk.Button(self, text="Hiện NV",
                                     width=8,
                                     background='#CCFFFF')
         self.btnLoadNV.place(x=960, y=400)
@@ -130,6 +142,11 @@ class ViewQuanLyNhanVien(tk.Tk):
                                             background='#CCFFFF',
                                             width=8)
         self.btnCapnhatNV.place(x=1010, y=450)
+
+        self.btntinhLuongNV = tk.Button(self, text="Tính lương",
+                                            background='#CCFFFF',
+                                            width=8)
+        self.btntinhLuongNV.place(x=1060, y=400)
 
     # def showNV(self, ds: list):
     #     for index, nv in enumerate(ds):
@@ -151,7 +168,7 @@ class ViewQuanLyNhanVien(tk.Tk):
         self.loaiNV.set(self.ojSelected[2])
         self.htsoNgayLam.set(self.ojSelected[4])
         self.htsoSanPham.set(self.ojSelected[5])
-
+        self.htluongHT.set(self.ojSelected[6])
     def clearTreeview(self):
         for item in self.tvNV.get_children():
             self.tvNV.delete(item)

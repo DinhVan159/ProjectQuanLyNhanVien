@@ -3,7 +3,7 @@ import pyodbc
 class MSSQLConnect:
     def __init__(self,driver = 'ODBC Driver 17 for SQL Server',
                 server = 'DESKTOP-V4L18NQ',
-                database = 'qlnv4',
+                database = 'qlnv5',
                 username = 'admin',
                 password = '123456'):
         self.driver = driver

@@ -12,6 +12,7 @@ class ControllerNhanVien:
         self.view.btnThemNV.config(command=self.themNV)
         self.view.btnXoaNV.config(command=self.xoaNV)
         self.view.btnCapnhatNV.config(command=self.capnhatNV)
+        self.view.btntinhLuongNV.config(command=self.tinhluongNV)
     def loadNV(self):
         self.model.setdsNVnull()
         self.view.clearTreeview()
@@ -22,7 +23,7 @@ class ControllerNhanVien:
         #     print("Test", nv)
     def timNV(self):
         self.model.setdsNVnull()
-        self.model.timNV(self.view.maNV.get())
+        self.model.timNV(self.view.maNVCanTim.get())
         self.view.clearTreeview()
         self.view.showNV(self.model.dsNV)
         if self.model.dsNV == []: self.view.messageWR("Tìm không có sinh viên")
@@ -72,3 +73,20 @@ class ControllerNhanVien:
 
         if self.view.maNV.get() != self.view.ojSelected[0]:
             self.view.messageWR("Cập nhật không thành công nhân viên")
+
+    def tinhluongNV(self):
+        self.model.setdsNVnull()
+        datatinhluongNV = [self.view.maNV.get(), self.view.hoTen.get(), self.view.loaiNV.get(), self.view.luongCB.get(),
+                           int(self.view.soNgayLam.get()), int(self.view.soSanPham.get()), self.view.htluongHT.get()]
+        if datatinhluongNV == self.view.ojSelected:
+            if datatinhluongNV[2] == 'Văn Phòng':
+                luongHT = float(datatinhluongNV[3]) + datatinhluongNV[5] * 150000
+            elif datatinhluongNV[2] == 'Bán Hàng':
+                luongHT = float(datatinhluongNV[3]) + datatinhluongNV[5] * 100000
+            else: luongHT = float(datatinhluongNV[3]) + datatinhluongNV[5] * 50000
+            self.model.tinhluongHT(datatinhluongNV,luongHT)
+            self.view.clearTreeview()
+            self.model.loadNV()
+            self.view.showNV(self.model.dsNV)
+        else:
+            self.view.messageWR("Vui lòng chọn lại nhân viên cần tính lương")
