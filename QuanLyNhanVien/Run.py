@@ -10,7 +10,6 @@ import tkinter as tk
 
 
 conx = MSSQLConnect()
-tTDN = ''
 def ShowQLNV():
     root.destroy()
     model = ModuleNhanVien()
@@ -22,9 +21,8 @@ def ShowQLNV():
 def DangNhap():
     username = user.get()
     password = code.get()
-    print(username, password)
     if (username=="") or (password==""):
-        messagebox.showwarning("Thông báo","Không nhập tên đăng nhập hoặc mật khẩu")
+        messagebox.showwarning("Thông báo","Vui lòng điền tên đăng nhập hoặc mật khẩu")
     else:
         dsTT = []
         conx.connect()
@@ -40,6 +38,29 @@ def DangNhap():
                 tTDN = userpass[0]
                 ShowQLNV()
 
+def DangKi():
+    username = user.get()
+    password = code.get()
+    if (username == "") or (password == ""):
+        messagebox.showwarning("Thông báo", "Vui lòng điền tên đăng nhập hoặc mật khẩu")
+    else:
+        dsTT = []
+        conx.connect()
+        sql_query = """
+                    SELECT *
+                    FROM ThongTinDangNhap
+                    WHERE TenDangNhap = '"""+ username +"""'
+                    """
+        ds = conx.query(sql_query)
+        dsTT.extend(ds)
+        conx.close()
+        if dsTT != []:
+            messagebox.showwarning("Thông báo", "Tên đăng nhập đã được sử dụng")
+        else:
+            conx.connect()
+            sql_query1 = """INSERT INTO ThongTinDangNhap (TenDangNhap, MatKhau) VALUES ('""" + username + """','""" + password + """');"""
+            conx.excute(sql_query1)
+            messagebox.showinfo("Thông báo", "Đăng kí thành công")
 #Tạo form Đăng nhập
 root=Tk()
 root.title("Đăng Nhập")
@@ -66,6 +87,11 @@ btnDangnhap = tk.Button(root, text="Đăng nhâp", command=DangNhap,
                                    width=8)
 btnDangnhap.place(x=140, y=120)
 
+#Tạo button Đăng kí
+btnDangki = tk.Button(root, text="Đăng kí", command=DangKi,
+                                   background='#CCFFFF',
+                                   width=8)
+btnDangki.place(x=260, y=120)
 root.mainloop()
 
 
