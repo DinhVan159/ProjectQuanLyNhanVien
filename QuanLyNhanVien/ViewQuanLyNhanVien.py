@@ -22,6 +22,12 @@ class ViewQuanLyNhanVien(tk.Tk):
                  font=tkFont.Font(family="Helvetica", size=20, weight="bold")
                 ).place(x=380, y=30)
 
+        # Tạo Label User
+        self.ttUser = StringVar()
+        self.ttUser.set("Admin")
+        tk.Label(self, textvariable=self.ttUser,
+                 font=tkFont.Font(family="Helvetica", size=12, weight="bold")
+                 ).place(x=1100, y=20)
 
         # Tạo Label và Entry Mã Nhân Viên
         tk.Label(self, text="Mã Nhân Viên:").place(x=900, y=100)
